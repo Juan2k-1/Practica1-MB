@@ -1,15 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package juan.practica1_mb;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
@@ -26,10 +25,21 @@ public class ParserDocument {
         System.out.println("Por favor, proporciona la ruta del archivo CISI.ALL como argumento.");
         String filePath = scanner.nextLine();
 
-        Path pathToDocument = Paths.get(filePath);
+        Path pathToDocument = null;
+        BufferedReader br = null;
+        SolrClient solr = null;
 
-        final SolrClient solr = new HttpSolrClient.Builder("http://localhost:8983/solr").build();
-        BufferedReader br = Files.newBufferedReader(pathToDocument.toAbsolutePath());
+        try {
+            pathToDocument = Paths.get(filePath);
+            solr = new HttpSolrClient.Builder("http://localhost:8983/solr").build();
+            br = Files.newBufferedReader(pathToDocument.toAbsolutePath());
+        } catch (NoSuchFileException e) {
+            Logger.getLogger(ParserDocument.class.getName()).log(Level.SEVERE, null, e);
+            return;
+        } catch (IOException e) {
+            Logger.getLogger(ParserDocument.class.getName()).log(Level.SEVERE, null, e);
+            return;
+        }
 
         String line;
         StringBuilder documentContent = new StringBuilder();
@@ -81,5 +91,6 @@ public class ParserDocument {
         solr.commit("CORPUS");
         solr.close();
         br.close();
+        scanner.close();
     }
 }
