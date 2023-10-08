@@ -35,14 +35,11 @@ public class ParserDocument {
             br = Files.newBufferedReader(pathToDocument.toAbsolutePath());
         } catch (NoSuchFileException e) {
             Logger.getLogger(ParserDocument.class.getName()).log(Level.SEVERE, null, e);
-            return;
         } catch (IOException e) {
             Logger.getLogger(ParserDocument.class.getName()).log(Level.SEVERE, null, e);
-            return;
         }
 
         String line;
-        StringBuilder documentContent = new StringBuilder();
         boolean inDocument = false;
         String id = null;
         String title = null;
@@ -60,7 +57,6 @@ public class ParserDocument {
                     document.addField("author", author);
                     document.addField("content", content.toString());
                     solr.add("CORPUS", document);
-                    documentContent.setLength(0); // Limpiamos el contenido del documento
                 }
                 inDocument = true;
                 id = line.substring(3).trim(); // Obtener el ID del documento
