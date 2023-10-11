@@ -56,7 +56,7 @@ public class ParserDocument {
                     document.addField("title", title);
                     document.addField("author", author);
                     document.addField("content", content.toString());
-                    solr.add("CORPUS", document);
+                    solr.add("CORPUS2", document);
                 }
                 inDocument = true;
                 id = line.substring(3).trim(); // Obtener el ID del documento
@@ -80,11 +80,11 @@ public class ParserDocument {
             document.addField("title", title);
             document.addField("author", author);
             document.addField("content", content.toString());
-            solr.add("CORPUS", document);
+            solr.add("CORPUS2", document);
         }
 
         // Enviar los cambios al servidor Solr
-        solr.commit("CORPUS");
+        solr.commit("CORPUS2");
         solr.close();
         br.close();
         scanner.close();

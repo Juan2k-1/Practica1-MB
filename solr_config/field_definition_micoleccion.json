@@ -1,0 +1,23 @@
+{
+    "add-field" : {
+        "name" : "title",
+        "type" : "text_en",
+        "stored" : true,
+        "indexed" : true,
+        "required" : true
+    },
+    "add-field" : {
+        "name" : "author",
+        "type" : "text_en",
+        "stored" : true,
+        "indexed" : true,
+        "required" : false
+    },
+    "add-field" : {
+        "name" : "content",
+        "type" : "text_en",
+        "stored" : true,
+        "indexed" : true,
+        "required" : true
+    }
+}
